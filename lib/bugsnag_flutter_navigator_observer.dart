@@ -1,1 +1,1 @@
-library bugsnag_flutter_navigator_observer;
+export 'src/bugsnag_navigator_observer.dart';
