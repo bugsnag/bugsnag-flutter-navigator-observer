@@ -1,0 +1,1 @@
+library bugsnag_flutter_navigator_observer;
