@@ -40,12 +40,16 @@ class BugsnagNavigatorObserverCallbacks {
   static setup({
     LeaveBreadcrumbCallback? leaveBreadcrumbCallback,
     SetContextCallback? setContextCallback,
+    WillShowNewRouteCallback? willShowNewRouteCallback,
   }) {
     if (leaveBreadcrumbCallback != null) {
       callbacks._leaveBreadcrumbCallback = leaveBreadcrumbCallback;
     }
     if (setContextCallback != null) {
       callbacks._setContextCallback = setContextCallback;
+    }
+    if (willShowNewRouteCallback != null) {
+      callbacks._willShowNewRouteCallback = willShowNewRouteCallback;
     }
   }
 }
