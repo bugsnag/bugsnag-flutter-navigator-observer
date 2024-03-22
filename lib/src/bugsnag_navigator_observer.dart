@@ -37,7 +37,11 @@ class BugsnagNavigatorObserver extends NavigatorObserver {
     });
 
     _updateContext(newRoute);
-    callbacks.didReplaceRoute(newRoute, oldRoute);
+    callbacks.didReplaceRoute(
+      newRoute,
+      oldRoute,
+      _navigatorName,
+    );
   }
 
   @override
@@ -68,7 +72,11 @@ class BugsnagNavigatorObserver extends NavigatorObserver {
     });
 
     _updateContext(route);
-    callbacks.didPushNewRoute(route, previousRoute);
+    callbacks.didPushNewRoute(
+      route,
+      previousRoute,
+      _navigatorName,
+    );
   }
 
   void _leaveBreadcrumb(String function, Map<String, Object> metadata) {

@@ -6,7 +6,10 @@ typedef LeaveBreadcrumbCallback = Function(
 );
 typedef SetContextCallback = Function(String? context);
 typedef WillShowNewRouteCallback = Function(
-    Route<dynamic>? newRoute, Route<dynamic>? previousRoute);
+  Route<dynamic>? newRoute,
+  Route<dynamic>? previousRoute,
+  String? navigatorName,
+);
 
 class BugsnagNavigatorObserverCallbacks {
   LeaveBreadcrumbCallback? _leaveBreadcrumbCallback;
@@ -32,18 +35,28 @@ class BugsnagNavigatorObserverCallbacks {
   void didPushNewRoute({
     Route<dynamic>? newRoute,
     Route<dynamic>? previousRoute,
+    String? navigatorName,
   }) {
     if (_didPushNewRouteCallback != null) {
-      _didPushNewRouteCallback!(newRoute, previousRoute);
+      _didPushNewRouteCallback!(
+        newRoute,
+        previousRoute,
+        navigatorName,
+      );
     }
   }
 
   void didReplaceRoute({
     Route<dynamic>? newRoute,
     Route<dynamic>? previousRoute,
+    String? navigatorName,
   }) {
     if (_didReplaceRouteCallback != null) {
-      _didReplaceRouteCallback!(newRoute, previousRoute);
+      _didReplaceRouteCallback!(
+        newRoute,
+        previousRoute,
+        navigatorName,
+      );
     }
   }
 
