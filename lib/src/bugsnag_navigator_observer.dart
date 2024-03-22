@@ -37,7 +37,7 @@ class BugsnagNavigatorObserver extends NavigatorObserver {
     });
 
     _updateContext(newRoute);
-    _willShowNewRoute(newRoute);
+    callbacks.didReplaceRoute(newRoute, oldRoute);
   }
 
   @override
@@ -68,7 +68,7 @@ class BugsnagNavigatorObserver extends NavigatorObserver {
     });
 
     _updateContext(route);
-    _willShowNewRoute(route);
+    callbacks.didPushNewRoute(route, previousRoute);
   }
 
   void _leaveBreadcrumb(String function, Map<String, Object> metadata) {
@@ -85,13 +85,6 @@ class BugsnagNavigatorObserver extends NavigatorObserver {
       callbacks
           .setContext(newRoute != null ? _routeDescription(newRoute) : null);
     }
-  }
-
-  void _willShowNewRoute(Route<dynamic>? newRoute) {
-    callbacks.willShowNewRoute(
-      newRoute: newRoute,
-      routeDescription: newRoute != null ? _routeDescription(newRoute) : null,
-    );
   }
 
   String _operationDescription(String operation) {

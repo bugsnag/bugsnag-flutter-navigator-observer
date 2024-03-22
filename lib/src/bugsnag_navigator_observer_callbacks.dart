@@ -6,12 +6,13 @@ typedef LeaveBreadcrumbCallback = Function(
 );
 typedef SetContextCallback = Function(String? context);
 typedef WillShowNewRouteCallback = Function(
-    Route<dynamic>? newRoute, String? routeDescription);
+    Route<dynamic>? newRoute, Route<dynamic>? previousRoute);
 
 class BugsnagNavigatorObserverCallbacks {
   LeaveBreadcrumbCallback? _leaveBreadcrumbCallback;
   SetContextCallback? _setContextCallback;
-  WillShowNewRouteCallback? _willShowNewRouteCallback;
+  WillShowNewRouteCallback? _didPushNewRouteCallback;
+  WillShowNewRouteCallback? _didReplaceRouteCallback;
 
   void leaveBreadcrumb({
     required String operationDescription,
@@ -28,19 +29,29 @@ class BugsnagNavigatorObserverCallbacks {
     }
   }
 
-  void willShowNewRoute({
+  void didPushNewRoute({
     Route<dynamic>? newRoute,
-    String? routeDescription,
+    Route<dynamic>? previousRoute,
   }) {
-    if (_willShowNewRouteCallback != null) {
-      _willShowNewRouteCallback!(newRoute, routeDescription);
+    if (_didPushNewRouteCallback != null) {
+      _didPushNewRouteCallback!(newRoute, previousRoute);
+    }
+  }
+
+  void didReplaceRoute({
+    Route<dynamic>? newRoute,
+    Route<dynamic>? previousRoute,
+  }) {
+    if (_didReplaceRouteCallback != null) {
+      _didReplaceRouteCallback!(newRoute, previousRoute);
     }
   }
 
   static setup({
     LeaveBreadcrumbCallback? leaveBreadcrumbCallback,
     SetContextCallback? setContextCallback,
-    WillShowNewRouteCallback? willShowNewRouteCallback,
+    WillShowNewRouteCallback? didPushNewRouteCallback,
+    WillShowNewRouteCallback? didReplaceRouteCallback,
   }) {
     if (leaveBreadcrumbCallback != null) {
       callbacks._leaveBreadcrumbCallback = leaveBreadcrumbCallback;
@@ -48,8 +59,11 @@ class BugsnagNavigatorObserverCallbacks {
     if (setContextCallback != null) {
       callbacks._setContextCallback = setContextCallback;
     }
-    if (willShowNewRouteCallback != null) {
-      callbacks._willShowNewRouteCallback = willShowNewRouteCallback;
+    if (didPushNewRouteCallback != null) {
+      callbacks._didPushNewRouteCallback = didPushNewRouteCallback;
+    }
+    if (didReplaceRouteCallback != null) {
+      callbacks._didReplaceRouteCallback = didReplaceRouteCallback;
     }
   }
 }
