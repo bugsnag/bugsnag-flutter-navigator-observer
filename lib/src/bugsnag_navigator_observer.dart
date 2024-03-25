@@ -52,6 +52,11 @@ class BugsnagNavigatorObserver extends NavigatorObserver {
     });
 
     _updateContext(previousRoute);
+    callbacks.didRemoveRoute(
+      previousRoute,
+      route,
+      _navigatorName,
+    );
   }
 
   @override
@@ -62,6 +67,11 @@ class BugsnagNavigatorObserver extends NavigatorObserver {
     });
 
     _updateContext(previousRoute);
+    callbacks.didPopRoute(
+      previousRoute,
+      route,
+      _navigatorName,
+    );
   }
 
   @override

@@ -16,6 +16,8 @@ class BugsnagNavigatorObserverCallbacks {
   SetContextCallback? _setContextCallback;
   WillShowNewRouteCallback? _didPushNewRouteCallback;
   WillShowNewRouteCallback? _didReplaceRouteCallback;
+  WillShowNewRouteCallback? _didRemoveRouteCallback;
+  WillShowNewRouteCallback? _didPopRouteCallback;
 
   void leaveBreadcrumb({
     required String operationDescription,
@@ -60,11 +62,41 @@ class BugsnagNavigatorObserverCallbacks {
     }
   }
 
+  void didRemoveRoute({
+    Route<dynamic>? newRoute,
+    Route<dynamic>? previousRoute,
+    String? navigatorName,
+  }) {
+    if (_didRemoveRouteCallback != null) {
+      _didRemoveRouteCallback!(
+        newRoute,
+        previousRoute,
+        navigatorName,
+      );
+    }
+  }
+
+  void didPopRoute({
+    Route<dynamic>? newRoute,
+    Route<dynamic>? previousRoute,
+    String? navigatorName,
+  }) {
+    if (_didPopRouteCallback != null) {
+      _didPopRouteCallback!(
+        newRoute,
+        previousRoute,
+        navigatorName,
+      );
+    }
+  }
+
   static setup({
     LeaveBreadcrumbCallback? leaveBreadcrumbCallback,
     SetContextCallback? setContextCallback,
     WillShowNewRouteCallback? didPushNewRouteCallback,
     WillShowNewRouteCallback? didReplaceRouteCallback,
+    WillShowNewRouteCallback? didRemoveRouteCallback,
+    WillShowNewRouteCallback? didPopRouteCallback,
   }) {
     if (leaveBreadcrumbCallback != null) {
       callbacks._leaveBreadcrumbCallback = leaveBreadcrumbCallback;
@@ -77,6 +109,12 @@ class BugsnagNavigatorObserverCallbacks {
     }
     if (didReplaceRouteCallback != null) {
       callbacks._didReplaceRouteCallback = didReplaceRouteCallback;
+    }
+    if (didRemoveRouteCallback != null) {
+      callbacks._didRemoveRouteCallback = didRemoveRouteCallback;
+    }
+    if (didPopRouteCallback != null) {
+      callbacks._didPopRouteCallback = didPopRouteCallback;
     }
   }
 }
