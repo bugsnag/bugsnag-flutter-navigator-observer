@@ -5,7 +5,7 @@ import 'bugsnag_navigator_observer_callbacks.dart';
 class BugsnagNavigatorObserver extends NavigatorObserver {
   final bool leaveBreadcrumbs;
   final bool setContext;
-  final String _navigatorName;
+  final String? navigatorName;
 
   /// Create and configure a `BugsnagNavigatorObserver` to listen for navigation
   /// events and leave breadcrumbs and/or set the context.
@@ -26,8 +26,8 @@ class BugsnagNavigatorObserver extends NavigatorObserver {
   BugsnagNavigatorObserver({
     this.leaveBreadcrumbs = true,
     this.setContext = true,
-    String? navigatorName,
-  }) : _navigatorName = (navigatorName != null) ? navigatorName : 'navigator';
+    this.navigatorName,
+  });
 
   @override
   void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
@@ -38,9 +38,9 @@ class BugsnagNavigatorObserver extends NavigatorObserver {
 
     _updateContext(newRoute);
     callbacks.didReplaceRoute(
-      newRoute,
-      oldRoute,
-      _navigatorName,
+      newRoute: newRoute,
+      previousRoute: oldRoute,
+      navigatorName: navigatorName,
     );
   }
 
@@ -53,9 +53,9 @@ class BugsnagNavigatorObserver extends NavigatorObserver {
 
     _updateContext(previousRoute);
     callbacks.didRemoveRoute(
-      previousRoute,
-      route,
-      _navigatorName,
+      newRoute: previousRoute,
+      previousRoute: route,
+      navigatorName: navigatorName,
     );
   }
 
@@ -68,9 +68,9 @@ class BugsnagNavigatorObserver extends NavigatorObserver {
 
     _updateContext(previousRoute);
     callbacks.didPopRoute(
-      previousRoute,
-      route,
-      _navigatorName,
+      newRoute: previousRoute,
+      previousRoute: route,
+      navigatorName: navigatorName,
     );
   }
 
@@ -83,9 +83,9 @@ class BugsnagNavigatorObserver extends NavigatorObserver {
 
     _updateContext(route);
     callbacks.didPushNewRoute(
-      route,
-      previousRoute,
-      _navigatorName,
+      newRoute: route,
+      previousRoute: previousRoute,
+      navigatorName: navigatorName,
     );
   }
 
@@ -106,7 +106,7 @@ class BugsnagNavigatorObserver extends NavigatorObserver {
   }
 
   String _operationDescription(String operation) {
-    return '$operation $_navigatorName';
+    return '$operation ${navigatorName ?? 'navigator'}';
   }
 
   static Map<String, Object> _routeMetadata(Route<dynamic> route) {
